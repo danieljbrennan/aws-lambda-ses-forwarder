@@ -1,5 +1,5 @@
 
-var LambdaForwarder = require("aws-lambda-ses-forwarder");
+var LambdaForwarder = require("index");
 
 exports.handler = function(event, context, callback) {
   // See aws-lambda-ses-forwarder/index.js for all options.
