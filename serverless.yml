@@ -4,7 +4,30 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs18.x
+  region: us-west-2
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 's3:ListBucket'
+          Resource: '*'
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+          Resource:
+            - 'arn:aws:s3:::16geniuses.com/*'
+  deploymentBucket:
+    name: serverless-deployment-us-west-2
 
 functions:
-  function1:
+  gmail:
     handler: index.handler
+
+
+plugins:
+  - serverless-deployment-bucket
+#SMTP Username:
+#  AKIA4LPBIFUTAN42EA5X
+#SMTP Password:
+#  BPpjL85Lmy6Oo1ctYVH1MFZJ5cD6UtJlvQxTzdXCaDJT
