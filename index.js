@@ -46,6 +46,27 @@ var defaultConfig = {
       "danieljb@gmail.com"
       // ,
       // "example.jen@example.com"
+    ],
+    "daniel@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
+    "danielbrennan@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
+    "bobcooley@16geniuses.com": [
+      "bobcooley@gmail.com"
+    ],
+    "nickware@16geniuses.com": [
+      "nicholas.m.ware@gmail.com"
+    ],
+    "ericdermond@16geniuses.com": [
+      "edermond@gmail.com"
+    ],
+    "joshweil@16geniuses.com": [
+      "joshweil@gmail.com"
+    ],
+    "contact@16geniuses.com": [
+      "danieljb@gmail.com"
     ]
     // ,
     // "abuse@example.com": [
