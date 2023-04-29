@@ -9,6 +9,9 @@ provider:
     role:
       statements:
         - Effect: Allow
+          Action: 'ses:*'
+          Resource: '*'
+        - Effect: Allow
           Action: 's3:ListBucket'
           Resource: '*'
         - Effect: Allow
