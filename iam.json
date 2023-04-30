@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Id": "default",
+  "Statement": [
+    {
+      "Sid": "allowSesInvoke-1682719226089",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ses.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-west-2:849265306918:function:aws-lambda-ses-forwarder-dev-gmail",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "849265306918"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:ses:us-west-2:849265306918:receipt-rule-set/INBOUND_MAIL:receipt-rule/m-7000c03e9f064667b19a70e558349d9c"
+        }
+      }
+    }
+  ]
+}
