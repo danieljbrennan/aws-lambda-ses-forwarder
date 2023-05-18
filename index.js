@@ -43,7 +43,7 @@ var defaultConfig = {
   allowPlusSign: true,
   forwardMapping: {
     "registration@16geniuses.com": [
-      "danieljb@gmail.com"
+    "danieljb@gmail.com"
       // ,"example.jen@example.com"
     ],
     "daniel@16geniuses.com": [
@@ -53,6 +53,9 @@ var defaultConfig = {
       "danieljb@gmail.com"
     ],
     "bobcooley@16geniuses.com": [
+      "bobcooley@gmail.com"
+    ],
+    "bob@16geniuses.com": [
       "bobcooley@gmail.com"
     ],
     "nickware@16geniuses.com": [
@@ -87,14 +90,14 @@ var defaultConfig = {
  *
  * @return {object} - Promise resolved with data.
  */
-exports.parseEvent = function(data) {
+exports.parseEvent = function (data) {
   // Validate characteristics of a SES event record.
   if (!data.event ||
-      !data.event.hasOwnProperty('Records') ||
-      data.event.Records.length !== 1 ||
-      !data.event.Records[0].hasOwnProperty('eventSource') ||
-      data.event.Records[0].eventSource !== 'aws:ses' ||
-      data.event.Records[0].eventVersion !== '1.0') {
+    !data.event.hasOwnProperty('Records') ||
+    data.event.Records.length !== 1 ||
+    !data.event.Records[0].hasOwnProperty('eventSource') ||
+    data.event.Records[0].eventSource !== 'aws:ses' ||
+    data.event.Records[0].eventVersion !== '1.0') {
     data.log({
       message: "parseEvent() received invalid SES message:",
       level: "error", event: JSON.stringify(data.event)
@@ -114,10 +117,10 @@ exports.parseEvent = function(data) {
  *
  * @return {object} - Promise resolved with data.
  */
-exports.transformRecipients = function(data) {
+exports.transformRecipients = function (data) {
   var newRecipients = [];
   data.originalRecipients = data.recipients;
-  data.recipients.forEach(function(origEmail) {
+  data.recipients.forEach(function (origEmail) {
     var origEmailKey = origEmail.toLowerCase();
     if (data.config.allowPlusSign) {
       origEmailKey = origEmailKey.replace(/\+.*?@/, '@');
@@ -137,7 +140,7 @@ exports.transformRecipients = function(data) {
         origEmailUser = origEmailKey.slice(0, pos);
       }
       if (origEmailDomain &&
-          data.config.forwardMapping.hasOwnProperty(origEmailDomain)) {
+        data.config.forwardMapping.hasOwnProperty(origEmailDomain)) {
         newRecipients = newRecipients.concat(
           data.config.forwardMapping[origEmailDomain]);
         data.originalRecipient = origEmail;
@@ -174,14 +177,14 @@ exports.transformRecipients = function(data) {
  *
  * @return {object} - Promise resolved with data.
  */
-exports.fetchMessage = function(data) {
+exports.fetchMessage = function (data) {
   // Copying email object to ensure read permission
   data.log({
     level: "info",
     message: "Fetching email at s3://" + data.config.emailBucket + '/' +
       data.config.emailKeyPrefix + data.email.messageId
   });
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     data.s3.copyObject({
       Bucket: data.config.emailBucket,
       CopySource: data.config.emailBucket + '/' + data.config.emailKeyPrefix +
@@ -190,7 +193,7 @@ exports.fetchMessage = function(data) {
       ACL: 'private',
       ContentType: 'text/plain',
       StorageClass: 'STANDARD'
-    }, function(err) {
+    }, function (err) {
       if (err) {
         data.log({
           level: "error",
@@ -206,7 +209,7 @@ exports.fetchMessage = function(data) {
       data.s3.getObject({
         Bucket: data.config.emailBucket,
         Key: data.config.emailKeyPrefix + data.email.messageId
-      }, function(err, result) {
+      }, function (err, result) {
         if (err) {
           data.log({
             level: "error",
@@ -261,14 +264,14 @@ exports.processMessage = function(data) {
   // recipient (which is a verified domain)
   header = header.replace(
     /^from:[\t ]?(.*(?:\r?\n\s+.*)*)/mgi,
-    function(match, from) {
+    function (match, from) {
       var fromText;
       if (data.config.fromEmail) {
         fromText = 'From: ' + from.replace(/<(.*)>/, '').trim() +
-        ' <' + data.config.fromEmail + '>';
+          ' <' + data.config.fromEmail + '>';
       } else {
         fromText = 'From: ' + from.replace('<', 'at ').replace('>', '') +
-        ' <' + data.originalRecipient + '>';
+          ' <' + data.originalRecipient + '>';
       }
       return fromText;
     });
@@ -277,7 +280,7 @@ exports.processMessage = function(data) {
   if (data.config.subjectPrefix) {
     header = header.replace(
       /^subject:[\t ]?(.*)/mgi,
-      function(match, subject) {
+      function (match, subject) {
         return 'Subject: ' + data.config.subjectPrefix + subject;
       });
   }
@@ -358,7 +361,7 @@ exports.sendMessage = function(data) {
  * @param {object} overrides - Overrides for the default data, including the
  * configuration, SES object, and S3 object.
  */
-exports.handler = function(event, context, callback, overrides) {
+exports.handler = function (event, context, callback, overrides) {
   var steps = overrides && overrides.steps ? overrides.steps :
     [
       exports.parseEvent,

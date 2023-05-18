@@ -1,3 +1,3 @@
-module.exports = {
-  extends: "google"
-};
+// module.exports = {
+//   extends: "google"
+// };
