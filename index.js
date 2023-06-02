@@ -46,6 +46,9 @@ var defaultConfig = {
       "danieljb@gmail.com"
       // ,"example.jen@example.com"
     ],
+    "contact@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
     "daniel@16geniuses.com": [
       "danieljb@gmail.com"
     ],
@@ -62,13 +65,13 @@ var defaultConfig = {
       "nicholas.m.ware@gmail.com"
     ],
     "nick@16geniuses.com": [
-      "nicholas.m.ware@gmail.com"
+      "danieljb@gmail.com"
     ],
     "ericdermond@16geniuses.com": [
       "edermond@gmail.com"
     ],
     "eric@16geniuses.com": [
-      "edermond@gmail.com"
+      "danieljb@gmail.com"
     ],
     "joshweil@16geniuses.com": [
       "joshweil@gmail.com"
@@ -76,19 +79,21 @@ var defaultConfig = {
     "josh@16geniuses.com": [
       "joshweil@gmail.com"
     ],
-    "contact@16geniuses.com": [
+    "richard@16geniuses.com": [
       "danieljb@gmail.com"
-    ]
-    // ,
-    // "abuse@example.com": [
-    //   "example.jim@example.com"
-    // ],
-    // "@example.com": [
-    //   "example.john@example.com"
-    // ],
-    // "info": [
-    //   "info@example.com"
-    // ]
+    ],
+    "tomas@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
+    "katie@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
+    "patrick@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
+    "megan@16geniuses.com": [
+      "danieljb@gmail.com"
+    ],
   }
 };
 
