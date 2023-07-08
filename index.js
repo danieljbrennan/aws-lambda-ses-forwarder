@@ -1,6 +1,6 @@
 "use strict";
 
-var AWS = require('aws-sdk');
+let AWS = require('aws-sdk');
 
 console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
 
@@ -35,8 +35,8 @@ console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
 //   and domain part of an email address (i.e. `info`).
 //
 //   To match all email addresses matching no other mapping, use "@" as a key.
-var defaultConfig = {
-  fromEmail: "email@16geniuses.com",
+let defaultConfig = {
+  // fromEmail: "email@16geniuses.com",
   subjectPrefix: "",
   emailBucket: "16geniuses.com",
   emailKeyPrefix: "mail/",
@@ -132,10 +132,10 @@ exports.parseEvent = function (data) {
  * @return {object} - Promise resolved with data.
  */
 exports.transformRecipients = function (data) {
-  var newRecipients = [];
+  let newRecipients = [];
   data.originalRecipients = data.recipients;
   data.recipients.forEach(function (origEmail) {
-    var origEmailKey = origEmail.toLowerCase();
+    let origEmailKey = origEmail.toLowerCase();
     if (data.config.allowPlusSign) {
       origEmailKey = origEmailKey.replace(/\+.*?@/, '@');
     }
@@ -144,9 +144,9 @@ exports.transformRecipients = function (data) {
         data.config.forwardMapping[origEmailKey]);
       data.originalRecipient = origEmail;
     } else {
-      var origEmailDomain;
-      var origEmailUser;
-      var pos = origEmailKey.lastIndexOf("@");
+      let origEmailDomain;
+      let origEmailUser;
+      let pos = origEmailKey.lastIndexOf("@");
       if (pos === -1) {
         origEmailUser = origEmailKey;
       } else {
@@ -250,14 +250,14 @@ exports.fetchMessage = function (data) {
  * @return {object} - Promise resolved with data.
  */
 exports.processMessage = function(data) {
-  var match = data.emailData.match(/^((?:.+\r?\n)*)(\r?\n(?:.*\s+)*)/m);
-  var header = match && match[1] ? match[1] : data.emailData;
-  var body = match && match[2] ? match[2] : '';
+  let match = data.emailData.match(/^((?:.+\r?\n)*)(\r?\n(?:.*\s+)*)/m);
+  let header = match && match[1] ? match[1] : data.emailData;
+  let body = match && match[2] ? match[2] : '';
 
-  // Add "Reply-To:" with the "From" address if it doesn't already exists
+  // Add "Reply-To:" with the "From" address if it doesn't already exist
   if (!/^reply-to:[\t ]?/mi.test(header)) {
     match = header.match(/^from:[\t ]?(.*(?:\r?\n\s+.*)*\r?\n)/mi);
-    var from = match && match[1] ? match[1] : '';
+    let from = match && match[1] ? match[1] : '';
     if (from) {
       header = header + 'Reply-To: ' + from;
       data.log({
@@ -279,7 +279,7 @@ exports.processMessage = function(data) {
   header = header.replace(
     /^from:[\t ]?(.*(?:\r?\n\s+.*)*)/mgi,
     function (match, from) {
-      var fromText;
+      let fromText;
       if (data.config.fromEmail) {
         fromText = 'From: ' + from.replace(/<(.*)>/, '').trim() +
           ' <' + data.config.fromEmail + '>';
@@ -331,7 +331,7 @@ exports.processMessage = function(data) {
  * @return {object} - Promise resolved with data.
  */
 exports.sendMessage = function(data) {
-  var params = {
+  let params = {
     Destinations: data.recipients,
     Source: data.originalRecipient,
     RawMessage: {
@@ -376,7 +376,7 @@ exports.sendMessage = function(data) {
  * configuration, SES object, and S3 object.
  */
 exports.handler = function (event, context, callback, overrides) {
-  var steps = overrides && overrides.steps ? overrides.steps :
+  let steps = overrides && overrides.steps ? overrides.steps :
     [
       exports.parseEvent,
       exports.transformRecipients,
@@ -384,7 +384,7 @@ exports.handler = function (event, context, callback, overrides) {
       exports.processMessage,
       exports.sendMessage
     ];
-  var data = {
+  let data = {
     event: event,
     callback: callback,
     context: context,
