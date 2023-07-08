@@ -65,13 +65,13 @@ let defaultConfig = {
       "nicholas.m.ware@gmail.com"
     ],
     "nick@16geniuses.com": [
-      "danieljb@gmail.com"
+      "nicholas.m.ware@gmail.com"
     ],
     "ericdermond@16geniuses.com": [
       "edermond@gmail.com"
     ],
     "eric@16geniuses.com": [
-      "danieljb@gmail.com"
+      "edermond@gmail.com"
     ],
     "joshweil@16geniuses.com": [
       "joshweil@gmail.com"
@@ -80,19 +80,40 @@ let defaultConfig = {
       "joshweil@gmail.com"
     ],
     "richard@16geniuses.com": [
-      "danieljb@gmail.com"
+      "danieljb@gmail.com"  //TODO: update
+    ],
+    "richardgregston@16geniuses.com": [
+      "danieljb@gmail.com"  //TODO: update
     ],
     "tomas@16geniuses.com": [
-      "danieljb@gmail.com"
+      "danieljb@gmail.com" //TODO: update
+    ],
+    "tomastedesco@16geniuses.com": [
+      "danieljb@gmail.com" //TODO: update
     ],
     "katie@16geniuses.com": [
-      "danieljb@gmail.com"
+      "danieljb@gmail.com" //TODO: update
+    ],
+    "katienapier@16geniuses.com": [
+      "danieljb@gmail.com" //TODO: update
     ],
     "patrick@16geniuses.com": [
-      "danieljb@gmail.com"
+      "danieljb@gmail.com" //TODO: update
+    ],
+    "patrickgregston@16geniuses.com": [
+      "danieljb@gmail.com" //TODO: update
     ],
     "megan@16geniuses.com": [
-      "danieljb@gmail.com"
+      "danieljb@gmail.com" //TODO: update
+    ],
+    "meganwheeler@16geniuses.com": [
+      "danieljb@gmail.com" //TODO: update
+    ],
+    "karen@16geniuses.com": [
+      "danieljb@gmail.com" //TODO: update
+    ],
+    "karenmason@16geniuses.com": [
+      "danieljb@gmail.com" //TODO: update
     ],
   }
 };
