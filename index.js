@@ -92,10 +92,10 @@ let defaultConfig = {
       "tedesboca@gmail.com"
     ],
     "katie@16geniuses.com": [
-      "danieljb@gmail.com" //TODO: update
+      "knapier625@gmail.com"
     ],
     "katienapier@16geniuses.com": [
-      "danieljb@gmail.com" //TODO: update
+      "knapier625@gmail.com"
     ],
     "patrick@16geniuses.com": [
       "pgregston@gmail.com"
