@@ -124,6 +124,12 @@ let defaultConfig = {
     "elizabethtroy@16geniuses.com": [
       "m4elizabethtroy@gmail.com"
     ],
+    "martin@16geniuses.com": [
+      "martintedesco07@gmail.com"
+    ],
+    "martintedesco@16geniuses.com": [
+      "martintedesco07@gmail.com"
+    ],
     "stacy@16geniuses.com": [
       "stacy@eevolver.com"
     ],
