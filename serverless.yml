@@ -21,7 +21,7 @@ provider:
           Resource:
             - 'arn:aws:s3:::16geniuses.com/*'
   deploymentBucket:
-    name: serverless-deployment-us-west-2
+    name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-1'}
 
 functions:
   gmail:
