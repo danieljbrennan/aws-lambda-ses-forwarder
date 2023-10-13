@@ -76,6 +76,12 @@ let defaultConfig = {
     "joshweil@16geniuses.com": [
       "joshweil@gmail.com"
     ],
+    "john@16geniuses.com": [
+      "jdescamp@gmail.com"
+    ],
+    "johndescamps@16geniuses.com": [
+      "jdescamp@gmail.com"
+    ],
     "josh@16geniuses.com": [
       "joshweil@gmail.com"
     ],
