@@ -4,7 +4,7 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs18.x
-  region: us-west-2
+  region: ${opt:region, 'us-west-2'}
   iam:
     role:
       statements:
@@ -21,12 +21,11 @@ provider:
           Resource:
             - 'arn:aws:s3:::16geniuses.com/*'
   deploymentBucket:
-    name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-1'}
+    name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-2'}
 
 functions:
   gmail:
     handler: index.handler
-
 
 plugins:
   - serverless-deployment-bucket
