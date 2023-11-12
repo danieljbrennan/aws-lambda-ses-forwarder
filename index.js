@@ -45,6 +45,9 @@ let defaultConfig = {
         "bobcooley@16geniuses.com": [
             "bobcooley@gmail.com"
         ],
+        "dailymeditations@16geniuses.com": [
+            "ericdermond@thegeniusofflexibility.com"
+        ],
         "bob@16geniuses.com": [
             "bobcooley@gmail.com"
         ],
@@ -68,10 +71,10 @@ let defaultConfig = {
             "nicholas.m.ware@gmail.com"
         ],
         "ericdermond@16geniuses.com": [
-            "edermond@gmail.com"
+            "ericdermond@thegeniusofflexibility.com"
         ],
         "eric@16geniuses.com": [
-            "edermond@gmail.com"
+            "ericdermond@thegeniusofflexibility.com"
         ],
         "joshweil@16geniuses.com": [
             "joshweil@gmail.com"
