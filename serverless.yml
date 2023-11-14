@@ -29,7 +29,4 @@ functions:
 
 plugins:
   - serverless-deployment-bucket
-#SMTP Username:
-#  AKIA4LPBIFUTAN42EA5X
-#SMTP Password:
-#  BPpjL85Lmy6Oo1ctYVH1MFZJ5cD6UtJlvQxTzdXCaDJT
+
