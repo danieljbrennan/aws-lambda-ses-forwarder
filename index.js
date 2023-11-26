@@ -56,7 +56,7 @@ let defaultConfig = {
             // ,"example.jen@example.com"
         ],
         "contact@16geniuses.com": [
-            "edermond@gmail.com"
+            "danieljb@gmail.com"
         ],
         "daniel@16geniuses.com": [
             "danieljb@gmail.com"
@@ -144,6 +144,12 @@ let defaultConfig = {
         ],
         "tom@16geniuses.com": [
             "tomstretchworks@gmail.com"
+        ],
+        "devon@16geniuses.com": [
+            "dljames97@gmail.com"
+        ],
+        "devonjames@16geniuses.com": [
+            "dljames97@gmail.com"
         ],
         "stacy@16geniuses.com": [
             "stacy@eevolver.com"

@@ -1,9 +1,19 @@
 # AWS Lambda SES Email Forwarder
 
+
+SEND mail as:
+
+screenshots
+
+Server
+# email-smtp.us-west-2.amazonaws.com
 #SMTP Username:
 #  AKIA4LPBIFUTAN42EA5X
 #SMTP Password:
 #  BPpjL85Lmy6Oo1ctYVH1MFZJ5cD6UtJlvQxTzdXCaDJT
+
+GO TO SPAM! "Report not phishing"
+
 
 [![npm version](https://badge.fury.io/js/aws-lambda-ses-forwarder.svg)](https://www.npmjs.com/package/aws-lambda-ses-forwarder)
 [![Travis CI test status](https://travis-ci.org/arithmetric/aws-lambda-ses-forwarder.svg?branch=master)](https://travis-ci.org/arithmetric/aws-lambda-ses-forwarder)
