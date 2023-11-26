@@ -56,7 +56,7 @@ let defaultConfig = {
             // ,"example.jen@example.com"
         ],
         "contact@16geniuses.com": [
-            "danieljb@gmail.com"
+            "bob@16geniuses.com"
         ],
         "daniel@16geniuses.com": [
             "danieljb@gmail.com"
