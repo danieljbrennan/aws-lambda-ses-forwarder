@@ -48,6 +48,12 @@ let defaultConfig = {
         "dailymeditations@16geniuses.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
+        "premier@16geniuses.com": [
+            "ericdermond@thegeniusofflexibility.com"
+        ],
+        "newsletter@16geniuses.com": [
+            "ericdermond@thegeniusofflexibility.com"
+        ],
         "bob@16geniuses.com": [
             "bobcooley@gmail.com"
         ],
