@@ -1,10 +1,11 @@
-service: aws-lambda-ses-forwarder
+service: sixteen-gpt-email
 frameworkVersion: '3'
 
 provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-west-2'}
+  stage: prod
   iam:
     role:
       statements:
@@ -19,12 +20,12 @@ provider:
             - 's3:GetObject'
             - 's3:PutObject'
           Resource:
-            - 'arn:aws:s3:::16geniuses.com/*'
+            - 'arn:aws:s3:::16gpt.com/*'
   deploymentBucket:
     name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-2'}
 
 functions:
-  gmail:
+  forwarder:
     handler: index.handler
 
 plugins:

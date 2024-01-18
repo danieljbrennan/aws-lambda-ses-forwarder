@@ -1,8 +1,6 @@
-"use strict";
-
-let AWS = require('aws-sdk');
-
 console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
+
+const AWS = require('aws-sdk')
 
 // Configure the S3 bucket and key prefix for stored raw emails, and the
 // mapping of email addresses to forward from and to.
@@ -36,131 +34,131 @@ console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
 //
 //   To match all email addresses matching no other mapping, use "@" as a key.
 let defaultConfig = {
-    // fromEmail: "email@16geniuses.com",
+    fromEmail: "forwarder@16geneticpersonalitytypes.com",
     subjectPrefix: "",
-    emailBucket: "16geniuses.com",
+    emailBucket: "16gpt",
     emailKeyPrefix: "mail/",
     allowPlusSign: true,
     forwardMapping: {
-        "bobcooley@16geniuses.com": [
+        "bobcooley@16geneticpersonalitytypes.com": [
             "bobcooley@gmail.com"
         ],
-        "dailymeditations@16geniuses.com": [
+        "dailymeditations@16geneticpersonalitytypes.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
-        "premier@16geniuses.com": [
+        "premier@16geneticpersonalitytypes.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
-        "newsletter@16geniuses.com": [
+        "newsletter@16geneticpersonalitytypes.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
-        "bob@16geniuses.com": [
-            "bobcooley@gmail.com"
+        "freeclass@16geneticpersonalitytypes.com": [
+            "ericdermond@thegeniusofflexibility.com"
         ],
-        "registration@16geniuses.com": [
+        "registration@16geneticpersonalitytypes.com": [
             "danieljb@gmail.com"
             // ,"example.jen@example.com"
         ],
-        "contact@16geniuses.com": [
-            "bob@16geniuses.com",
-            "daniel@16geniuses.com"
+        "contact@16geneticpersonalitytypes.com": [
+            "bob@16geneticpersonalitytypes.com",
+            "daniel@16geneticpersonalitytypes.com"
         ],
-        "daniel@16geniuses.com": [
+        "bob@16geneticpersonalitytypes.com": [
+            "bobcooley@gmail.com"
+        ],
+        "daniel@16geneticpersonalitytypes.com": [
             "danieljb@gmail.com"
         ],
-        "danielbrennan@16geniuses.com": [
+        "danielbrennan@16geneticpersonalitytypes.com": [
             "danieljb@gmail.com"
         ],
-        "nickware@16geniuses.com": [
+        "nickware@16geneticpersonalitytypes.com": [
             "nicholas.m.ware@gmail.com"
         ],
-        "nick@16geniuses.com": [
+        "nick@16geneticpersonalitytypes.com": [
             "nicholas.m.ware@gmail.com"
         ],
-        "ericdermond@16geniuses.com": [
+        "ericdermond@16geneticpersonalitytypes.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
-        "eric@16geniuses.com": [
+        "eric@16geneticpersonalitytypes.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
-        "joshweil@16geniuses.com": [
+        "joshweil@16geneticpersonalitytypes.com": [
             "joshweil@gmail.com"
         ],
-        "josh@16geniuses.com": [
+        "josh@16geneticpersonalitytypes.com": [
             "joshweil@gmail.com"
         ],
-        "john@16geniuses.com": [
+        "john@16geneticpersonalitytypes.com": [
             "jdescamp@gmail.com"
         ],
-        "johndescamps@16geniuses.com": [
+        "johndescamps@16geneticpersonalitytypes.com": [
             "jdescamp@gmail.com"
         ],
-        "richard@16geniuses.com": [
+        "richard@16geneticpersonalitytypes.com": [
             "rgregston77@gmail.com"
         ],
-        "richardgregston@16geniuses.com": [
+        "richardgregston@16geneticpersonalitytypes.com": [
             "Rgregston77@gmail.com"
         ],
-        "tomas@16geniuses.com": [
+        "tomas@16geneticpersonalitytypes.com": [
             "tedesboca@gmail.com"
         ],
-        "tomastedesco@16geniuses.com": [
+        "tomastedesco@16geneticpersonalitytypes.com": [
             "tedesboca@gmail.com"
         ],
-        "katie@16geniuses.com": [
+        "katie@16geneticpersonalitytypes.com": [
             "knapier625@gmail.com"
         ],
-        "katienapier@16geniuses.com": [
+        "katienapier@16geneticpersonalitytypes.com": [
             "knapier625@gmail.com"
         ],
-        "patrick@16geniuses.com": [
+        "patrick@16geneticpersonalitytypes.com": [
             "pgregston@gmail.com"
         ],
-        "patrickgregston@16geniuses.com": [
+        "patrickgregston@16geneticpersonalitytypes.com": [
             "pgregston@gmail.com"
         ],
-        "meaghan@16geniuses.com": [
+        "meaghan@16geneticpersonalitytypes.com": [
             "meag.a.wheeler@gmail.com"
         ],
-        "meaghanwheeler@16geniuses.com": [
+        "meaghanwheeler@16geneticpersonalitytypes.com": [
             "meag.a.wheeler@gmail.com"
         ],
-        "karen@16geniuses.com": [
+        "karen@16geneticpersonalitytypes.com": [
             "sageandkaren@gmail.com"
         ],
-        "karenmason@16geniuses.com": [
+        "karenmason@16geneticpersonalitytypes.com": [
             "sageandkaren@gmail.com"
         ],
-        "liz@16geniuses.com": [
+        "liz@16geneticpersonalitytypes.com": [
             "m4elizabethtroy@gmail.com"
         ],
-        "elizabeth@16geniuses.com": [
+        "elizabeth@16geneticpersonalitytypes.com": [
             "m4elizabethtroy@gmail.com"
         ],
-        "elizabethtroy@16geniuses.com": [
+        "elizabethtroy@16geneticpersonalitytypes.com": [
             "m4elizabethtroy@gmail.com"
         ],
-        "martin@16geniuses.com": [
+        "martin@16geneticpersonalitytypes.com": [
             "martintedesco07@gmail.com"
         ],
-        "martintedesco@16geniuses.com": [
+        "martintedesco@16geneticpersonalitytypes.com": [
             "martintedesco07@gmail.com"
         ],
-        "tomlongo@16geniuses.com": [
+        "tomlongo@16geneticpersonalitytypes.com": [
             "tomstretchworks@gmail.com"
         ],
-        "tom@16geniuses.com": [
+        "tom@16geneticpersonalitytypes.com": [
             "tomstretchworks@gmail.com"
         ],
-        "devon@16geniuses.com": [
+        "devon@16geneticpersonalitytypes.com": [
             "dljames97@gmail.com"
         ],
-        "devonjames@16geniuses.com": [
+        "devonjames@16geneticpersonalitytypes.com": [
             "dljames97@gmail.com"
-        ],
-        "stacy@16geniuses.com": [
-            "stacy@eevolver.com"
-        ],
+        ]
     }
 };
 
