@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/16geniusesEmailLambda.iml" filepath="$PROJECT_DIR$/.idea/16geniusesEmailLambda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/16GEmail.iml" filepath="$PROJECT_DIR$/.idea/16GEmail.iml" />
     </modules>
   </component>
 </project>
