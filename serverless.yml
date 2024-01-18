@@ -25,9 +25,32 @@ provider:
     name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-2'}
 
 functions:
-  forwarder:
+  Forwarder:
     handler: index.handler
 
 plugins:
   - serverless-deployment-bucket
+
+resources:
+  Resources:
+    Route53HostedZone:
+      Type: AWS::Route53::HostedZone
+      Properties:
+        HostedZoneConfig:
+          Comment: "Domain registered with AWS"
+        Name: "16geneticpersonalitytypes.com"
+
+    # Forward email to us-west for SES processing
+    Route53RecordSet:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneId:
+          Ref: Route53HostedZone
+        Name:
+          Ref: ForwarderLambdaFunction # this matches the function name above, necessarily
+        Comment: Incoming email record for sub-domain
+        Type: MX
+        TTL: 900
+        ResourceRecords:
+          - "10 inbound-smtp.us-west-2.amazonaws.com"
 
