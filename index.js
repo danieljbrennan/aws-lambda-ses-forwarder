@@ -1,6 +1,6 @@
 "use strict";
 
-let AWS = require('aws-sdk');
+const AWS = require('aws-sdk')
 
 console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
 
@@ -36,7 +36,7 @@ console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
 //
 //   To match all email addresses matching no other mapping, use "@" as a key.
 let defaultConfig = {
-    // fromEmail: "email@16geniuses.com",
+    fromEmail: "forwarder@16geniuses.com",
     subjectPrefix: "",
     emailBucket: "16geniuses.com",
     emailKeyPrefix: "mail/",
@@ -54,8 +54,8 @@ let defaultConfig = {
         "newsletter@16geniuses.com": [
             "ericdermond@thegeniusofflexibility.com"
         ],
-        "bob@16geniuses.com": [
-            "bobcooley@gmail.com"
+        "freeclass@16geniuses.com": [
+            "ericdermond@thegeniusofflexibility.com"
         ],
         "registration@16geniuses.com": [
             "danieljb@gmail.com"
@@ -64,6 +64,9 @@ let defaultConfig = {
         "contact@16geniuses.com": [
             "bob@16geniuses.com",
             "daniel@16geniuses.com"
+        ],
+        "bob@16geniuses.com": [
+            "bobcooley@gmail.com"
         ],
         "daniel@16geniuses.com": [
             "danieljb@gmail.com"
@@ -157,15 +160,12 @@ let defaultConfig = {
         ],
         "devonjames@16geniuses.com": [
             "dljames97@gmail.com"
-        ],
-        "stacy@16geniuses.com": [
-            "stacy@eevolver.com"
-        ],
+        ]
     }
 };
 
 /**
- * Parses the SES event record provided for the `mail` and `receipients` data.
+ * Parses the SES event record provided for the `mail` and `recipients` data.
  *
  * @param {object} data - Data bundle with context, email, etc.
  *
