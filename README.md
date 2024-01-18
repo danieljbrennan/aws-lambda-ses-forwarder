@@ -125,7 +125,6 @@ email. Also configure the DNS MX record for these domains to point to the email
 receiving (or inbound) SES endpoint. See [SES documentation](http://docs.aws.amazon.com/ses/latest/DeveloperGuide/regions.html#region-endpoints)
 for the email receiving endpoints in each region.
 
-
 4. If you have the sandbox level of access to SES, then also verify any email
 addresses to which you want to forward email that are not on verified domains.
 
