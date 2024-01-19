@@ -20,7 +20,7 @@ provider:
             - 's3:GetObject'
             - 's3:PutObject'
           Resource:
-            - 'arn:aws:s3:::16gpt.com/*'
+            - 'arn:aws:s3:::16gemail*'
   deploymentBucket:
     name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-2'}
 
@@ -46,11 +46,40 @@ resources:
       Properties:
         HostedZoneId:
           Ref: Route53HostedZone
-        Name:
-          Ref: ForwarderLambdaFunction # this matches the function name above, necessarily
+        Name: 16geneticpersonalitytypes.com
         Comment: Incoming email record for sub-domain
         Type: MX
         TTL: 900
         ResourceRecords:
           - "10 inbound-smtp.us-west-2.amazonaws.com"
-
+    SESReceiptRuleSet:
+      Type: AWS::SES::ReceiptRuleSet
+      Properties:
+        RuleSetName: '16G'
+    EmailRule:
+      Type: AWS::SES::ReceiptRule
+      Properties:
+        RuleSetName: !Ref SESReceiptRuleSet
+        Rule:
+          Name: '16GIncoming'
+          Enabled: True
+          Recipients:
+            - 16geneticpersonalitytypes.com
+          Actions:
+            -
+              S3Action:
+                BucketName: 16gemail
+      DependsOn: S3BucketPolicy
+    S3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: 16gemail
+        PolicyDocument:
+          Statement:
+            - Sid: "AllowSESPutObject"
+              Effect: "Allow"
+              Principal:
+                Service: "ses.amazonaws.com"
+              Action:
+                - "s3:PutObject"
+              Resource: 16gemail/*
