@@ -1,4 +1,4 @@
-service: sixteen-gpt-email
+service: sixteen-g-email
 frameworkVersion: '3'
 
 provider:
@@ -8,19 +8,9 @@ provider:
   stage: prod
   iam:
     role:
-      statements:
-        - Effect: Allow
-          Action: 'ses:*'
-          Resource: '*'
-        - Effect: Allow
-          Action: 's3:ListBucket'
-          Resource: '*'
-        - Effect: Allow
-          Action:
-            - 's3:GetObject'
-            - 's3:PutObject'
-          Resource:
-            - 'arn:aws:s3:::16gemail*'
+      Fn::GetAtt:
+        - IAMRole
+        - Arn
   deploymentBucket:
     name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-2'}
 
@@ -55,13 +45,13 @@ resources:
     SESReceiptRuleSet:
       Type: AWS::SES::ReceiptRuleSet
       Properties:
-        RuleSetName: '16G'
-    EmailRule:
+        RuleSetName: 'INBOUND'
+    EmailRule16GPT:
       Type: AWS::SES::ReceiptRule
       Properties:
         RuleSetName: !Ref SESReceiptRuleSet
         Rule:
-          Name: '16GIncoming'
+          Name: '16GPT'
           Enabled: True
           Recipients:
             - 16geneticpersonalitytypes.com
@@ -69,7 +59,21 @@ resources:
             -
               S3Action:
                 BucketName: 16gemail
-      DependsOn: S3BucketPolicy
+#    EmailRule16Geniuses:
+#      Type: AWS::SES::ReceiptRule
+#      Properties:
+#        RuleSetName: !Ref SESReceiptRuleSet
+#        Rule:
+#          Name: '16Geniuses'
+#          Enabled: True
+#          Recipients:
+#            - 16geniuses.com
+#          Actions:
+#            -
+#              S3Action:
+#                BucketName: 16gemail
+#                Prefix: /mail
+#      DependsOn: S3BucketPolicy
     S3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -82,4 +86,37 @@ resources:
                 Service: "ses.amazonaws.com"
               Action:
                 - "s3:PutObject"
-              Resource: 16gemail/*
+              Resource: arn:aws:s3:::16gemail/*
+    IAMRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: 16G-Serverless-Deployment
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - 'cloudformation.amazonaws.com'
+                  - 'lambda.amazonaws.com'
+              Action:
+                - 'sts:AssumeRole'
+        Policies:
+          - PolicyName: ServerlessDeploymentPolicies
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow   # Allow S3 actions to buckets with service prefix.
+                  Resource:
+                    - 'arn:aws:s3:::16gemail*'
+                  Action:
+                    - 's3:*'
+          - PolicyName: LambdaRole
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow   # Allow all IAM actions to roles prefixed with service
+                  Resource:
+                    - !Sub 'arn:aws:iam::${AWS::AccountId}:role/16G-Serverless-Deployment-Role'
+                  Action:
+                    - 'iam:PassRole'

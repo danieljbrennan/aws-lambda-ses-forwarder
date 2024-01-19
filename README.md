@@ -7,9 +7,9 @@ screenshots
 
 Server
 # email-smtp.us-west-2.amazonaws.com
-#SMTP Username:
+# SMTP Username:
 #  AKIA4LPBIFUTAN42EA5X
-#SMTP Password:
+# SMTP Password:
 #  BPpjL85Lmy6Oo1ctYVH1MFZJ5cD6UtJlvQxTzdXCaDJT
 
 GO TO SPAM! "Report not phishing"
@@ -32,11 +32,11 @@ it and send it on to the chosen destination.
 Since this script is meant to allow forwarding email from any sender, the
 message is modified to allow forwarding through SES and reflect the original
 sender. This script adds a Reply-To header with the original sender, but the
-From header is changed to display the original sender but to be sent from the
+"From" header is changed to display the original sender but to be sent from the
 original destination.
 
   For example, if an email sent by `Jane Example <jane@example.com>` to
-  `info@example.com` is processed by this script, the From and Reply-To headers
+  `info@example.com` is processed by this script, the "From" and Reply-To headers
   will be set to:
 
   ```
