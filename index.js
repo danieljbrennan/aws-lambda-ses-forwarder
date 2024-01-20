@@ -34,131 +34,134 @@ const AWS = require('aws-sdk')
 //
 //   To match all email addresses matching no other mapping, use "@" as a key.
 let defaultConfig = {
-    fromEmail: "forwarder@16geneticpersonalitytypes.com",
+    fromEmail: "forwarder@adm-1.org",
     subjectPrefix: "",
-    emailBucket: "16gpt",
+    emailBucket: "16-g-mail-test",
     emailKeyPrefix: "mail/",
     allowPlusSign: true,
     forwardMapping: {
-        "bobcooley@16geneticpersonalitytypes.com": [
-            "bobcooley@gmail.com"
-        ],
-        "dailymeditations@16geneticpersonalitytypes.com": [
-            "ericdermond@thegeniusofflexibility.com"
-        ],
-        "premier@16geneticpersonalitytypes.com": [
-            "ericdermond@thegeniusofflexibility.com"
-        ],
-        "newsletter@16geneticpersonalitytypes.com": [
-            "ericdermond@thegeniusofflexibility.com"
-        ],
-        "freeclass@16geneticpersonalitytypes.com": [
-            "ericdermond@thegeniusofflexibility.com"
-        ],
-        "registration@16geneticpersonalitytypes.com": [
-            "danieljb@gmail.com"
-            // ,"example.jen@example.com"
-        ],
-        "contact@16geneticpersonalitytypes.com": [
-            "bob@16geneticpersonalitytypes.com",
-            "daniel@16geneticpersonalitytypes.com"
-        ],
-        "bob@16geneticpersonalitytypes.com": [
-            "bobcooley@gmail.com"
-        ],
-        "daniel@16geneticpersonalitytypes.com": [
+        "daniel@adm-1.org": [
             "danieljb@gmail.com"
         ],
-        "danielbrennan@16geneticpersonalitytypes.com": [
-            "danieljb@gmail.com"
-        ],
-        "nickware@16geneticpersonalitytypes.com": [
-            "nicholas.m.ware@gmail.com"
-        ],
-        "nick@16geneticpersonalitytypes.com": [
-            "nicholas.m.ware@gmail.com"
-        ],
-        "ericdermond@16geneticpersonalitytypes.com": [
-            "ericdermond@thegeniusofflexibility.com"
-        ],
-        "eric@16geneticpersonalitytypes.com": [
-            "ericdermond@thegeniusofflexibility.com"
-        ],
-        "joshweil@16geneticpersonalitytypes.com": [
-            "joshweil@gmail.com"
-        ],
-        "josh@16geneticpersonalitytypes.com": [
-            "joshweil@gmail.com"
-        ],
-        "john@16geneticpersonalitytypes.com": [
-            "jdescamp@gmail.com"
-        ],
-        "johndescamps@16geneticpersonalitytypes.com": [
-            "jdescamp@gmail.com"
-        ],
-        "richard@16geneticpersonalitytypes.com": [
-            "rgregston77@gmail.com"
-        ],
-        "richardgregston@16geneticpersonalitytypes.com": [
-            "Rgregston77@gmail.com"
-        ],
-        "tomas@16geneticpersonalitytypes.com": [
-            "tedesboca@gmail.com"
-        ],
-        "tomastedesco@16geneticpersonalitytypes.com": [
-            "tedesboca@gmail.com"
-        ],
-        "katie@16geneticpersonalitytypes.com": [
-            "knapier625@gmail.com"
-        ],
-        "katienapier@16geneticpersonalitytypes.com": [
-            "knapier625@gmail.com"
-        ],
-        "patrick@16geneticpersonalitytypes.com": [
-            "pgregston@gmail.com"
-        ],
-        "patrickgregston@16geneticpersonalitytypes.com": [
-            "pgregston@gmail.com"
-        ],
-        "meaghan@16geneticpersonalitytypes.com": [
-            "meag.a.wheeler@gmail.com"
-        ],
-        "meaghanwheeler@16geneticpersonalitytypes.com": [
-            "meag.a.wheeler@gmail.com"
-        ],
-        "karen@16geneticpersonalitytypes.com": [
-            "sageandkaren@gmail.com"
-        ],
-        "karenmason@16geneticpersonalitytypes.com": [
-            "sageandkaren@gmail.com"
-        ],
-        "liz@16geneticpersonalitytypes.com": [
-            "m4elizabethtroy@gmail.com"
-        ],
-        "elizabeth@16geneticpersonalitytypes.com": [
-            "m4elizabethtroy@gmail.com"
-        ],
-        "elizabethtroy@16geneticpersonalitytypes.com": [
-            "m4elizabethtroy@gmail.com"
-        ],
-        "martin@16geneticpersonalitytypes.com": [
-            "martintedesco07@gmail.com"
-        ],
-        "martintedesco@16geneticpersonalitytypes.com": [
-            "martintedesco07@gmail.com"
-        ],
-        "tomlongo@16geneticpersonalitytypes.com": [
-            "tomstretchworks@gmail.com"
-        ],
-        "tom@16geneticpersonalitytypes.com": [
-            "tomstretchworks@gmail.com"
-        ],
-        "devon@16geneticpersonalitytypes.com": [
-            "dljames97@gmail.com"
-        ],
-        "devonjames@16geneticpersonalitytypes.com": [
-            "dljames97@gmail.com"
-        ]
+        // "bobcooley@16geneticpersonalitytypes.com": [
+        //     "bobcooley@gmail.com"
+        // ],
+        // "dailymeditations@16geneticpersonalitytypes.com": [
+        //     "ericdermond@thegeniusofflexibility.com"
+        // ],
+        // "premier@16geneticpersonalitytypes.com": [
+        //     "ericdermond@thegeniusofflexibility.com"
+        // ],
+        // "newsletter@16geneticpersonalitytypes.com": [
+        //     "ericdermond@thegeniusofflexibility.com"
+        // ],
+        // "freeclass@16geneticpersonalitytypes.com": [
+        //     "ericdermond@thegeniusofflexibility.com"
+        // ],
+        // "registration@16geneticpersonalitytypes.com": [
+        //     "danieljb@gmail.com"
+        //     // ,"example.jen@example.com"
+        // ],
+        // "contact@16geneticpersonalitytypes.com": [
+        //     "bob@16geneticpersonalitytypes.com",
+        //     "daniel@16geneticpersonalitytypes.com"
+        // ],
+        // "bob@16geneticpersonalitytypes.com": [
+        //     "bobcooley@gmail.com"
+        // ],
+        // "daniel@16geneticpersonalitytypes.com": [
+        //     "danieljb@gmail.com"
+        // ],
+        // "danielbrennan@16geneticpersonalitytypes.com": [
+        //     "danieljb@gmail.com"
+        // ],
+        // "nickware@16geneticpersonalitytypes.com": [
+        //     "nicholas.m.ware@gmail.com"
+        // ],
+        // "nick@16geneticpersonalitytypes.com": [
+        //     "nicholas.m.ware@gmail.com"
+        // ],
+        // "ericdermond@16geneticpersonalitytypes.com": [
+        //     "ericdermond@thegeniusofflexibility.com"
+        // ],
+        // "eric@16geneticpersonalitytypes.com": [
+        //     "ericdermond@thegeniusofflexibility.com"
+        // ],
+        // "joshweil@16geneticpersonalitytypes.com": [
+        //     "joshweil@gmail.com"
+        // ],
+        // "josh@16geneticpersonalitytypes.com": [
+        //     "joshweil@gmail.com"
+        // ],
+        // "john@16geneticpersonalitytypes.com": [
+        //     "jdescamp@gmail.com"
+        // ],
+        // "johndescamps@16geneticpersonalitytypes.com": [
+        //     "jdescamp@gmail.com"
+        // ],
+        // "richard@16geneticpersonalitytypes.com": [
+        //     "rgregston77@gmail.com"
+        // ],
+        // "richardgregston@16geneticpersonalitytypes.com": [
+        //     "Rgregston77@gmail.com"
+        // ],
+        // "tomas@16geneticpersonalitytypes.com": [
+        //     "tedesboca@gmail.com"
+        // ],
+        // "tomastedesco@16geneticpersonalitytypes.com": [
+        //     "tedesboca@gmail.com"
+        // ],
+        // "katie@16geneticpersonalitytypes.com": [
+        //     "knapier625@gmail.com"
+        // ],
+        // "katienapier@16geneticpersonalitytypes.com": [
+        //     "knapier625@gmail.com"
+        // ],
+        // "patrick@16geneticpersonalitytypes.com": [
+        //     "pgregston@gmail.com"
+        // ],
+        // "patrickgregston@16geneticpersonalitytypes.com": [
+        //     "pgregston@gmail.com"
+        // ],
+        // "meaghan@16geneticpersonalitytypes.com": [
+        //     "meag.a.wheeler@gmail.com"
+        // ],
+        // "meaghanwheeler@16geneticpersonalitytypes.com": [
+        //     "meag.a.wheeler@gmail.com"
+        // ],
+        // "karen@16geneticpersonalitytypes.com": [
+        //     "sageandkaren@gmail.com"
+        // ],
+        // "karenmason@16geneticpersonalitytypes.com": [
+        //     "sageandkaren@gmail.com"
+        // ],
+        // "liz@16geneticpersonalitytypes.com": [
+        //     "m4elizabethtroy@gmail.com"
+        // ],
+        // "elizabeth@16geneticpersonalitytypes.com": [
+        //     "m4elizabethtroy@gmail.com"
+        // ],
+        // "elizabethtroy@16geneticpersonalitytypes.com": [
+        //     "m4elizabethtroy@gmail.com"
+        // ],
+        // "martin@16geneticpersonalitytypes.com": [
+        //     "martintedesco07@gmail.com"
+        // ],
+        // "martintedesco@16geneticpersonalitytypes.com": [
+        //     "martintedesco07@gmail.com"
+        // ],
+        // "tomlongo@16geneticpersonalitytypes.com": [
+        //     "tomstretchworks@gmail.com"
+        // ],
+        // "tom@16geneticpersonalitytypes.com": [
+        //     "tomstretchworks@gmail.com"
+        // ],
+        // "devon@16geneticpersonalitytypes.com": [
+        //     "dljames97@gmail.com"
+        // ],
+        // "devonjames@16geneticpersonalitytypes.com": [
+        //     "dljames97@gmail.com"
+        // ]
     }
 };
 

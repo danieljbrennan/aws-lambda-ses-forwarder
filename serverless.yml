@@ -1,5 +1,9 @@
-service: sixteen-g-email
+service: ses-email-forwarder
 frameworkVersion: '3'
+
+params:
+  default:
+    bucket: 16-g-mail-test
 
 provider:
   name: aws
@@ -17,26 +21,46 @@ provider:
 functions:
   Forwarder:
     handler: index.handler
+    events:
+      - s3:
+          bucket: ${param:bucket}
+          event: s3:ObjectCreated:*
+          existing: true   # We are using an existing bucket
 
 plugins:
   - serverless-deployment-bucket
 
 resources:
   Resources:
-    Route53HostedZone:
+#    Route53HostedZone16Genetic:
+#      Type: AWS::Route53::HostedZone
+#      Properties:
+#        HostedZoneConfig:
+#          Comment: "Domain registered with AWS"
+#        Name: "16geneticpersonalitytypes.com"
+    Route53HostedZoneAdm:
       Type: AWS::Route53::HostedZone
       Properties:
         HostedZoneConfig:
           Comment: "Domain registered with AWS"
-        Name: "16geneticpersonalitytypes.com"
-
-    # Forward email to us-west for SES processing
-    Route53RecordSet:
+        Name: "adm-1.org"
+#    Route53RecordSet:
+#      Type: AWS::Route53::RecordSet
+#      Properties:
+#        HostedZoneId:
+#          Ref: Route53HostedZone16Genetic
+#        Name: 16geneticpersonalitytypes.com
+#        Comment: Incoming email record for sub-domain
+#        Type: MX
+#        TTL: 900
+#        ResourceRecords:
+#          - "10 inbound-smtp.us-west-2.amazonaws.com"
+    Route53RecordSetAdm:
       Type: AWS::Route53::RecordSet
       Properties:
         HostedZoneId:
-          Ref: Route53HostedZone
-        Name: 16geneticpersonalitytypes.com
+          Ref: Route53HostedZoneAdm
+        Name: adm-1.org
         Comment: Incoming email record for sub-domain
         Type: MX
         TTL: 900
@@ -46,38 +70,39 @@ resources:
       Type: AWS::SES::ReceiptRuleSet
       Properties:
         RuleSetName: 'INBOUND'
-    EmailRule16GPT:
-      Type: AWS::SES::ReceiptRule
-      Properties:
-        RuleSetName: !Ref SESReceiptRuleSet
-        Rule:
-          Name: '16GPT'
-          Enabled: True
-          Recipients:
-            - 16geneticpersonalitytypes.com
-          Actions:
-            -
-              S3Action:
-                BucketName: 16gemail
-#    EmailRule16Geniuses:
+#    EmailRule1:
 #      Type: AWS::SES::ReceiptRule
 #      Properties:
 #        RuleSetName: !Ref SESReceiptRuleSet
 #        Rule:
-#          Name: '16Geniuses'
+#          Name: '16GPT'
 #          Enabled: True
 #          Recipients:
-#            - 16geniuses.com
+#            - 16geneticpersonalitytypes.com
 #          Actions:
-#            -
-#              S3Action:
-#                BucketName: 16gemail
-#                Prefix: /mail
-#      DependsOn: S3BucketPolicy
+#            - S3Action:
+#                BucketName: ${param:bucket}
+#            - LambdaAction:
+#                FunctionArn:
+#                  Fn::GetAtt:
+#                    - ForwarderLambdaFunction
+#                    - Arn
+    EmailRule2:
+      Type: AWS::SES::ReceiptRule
+      Properties:
+        RuleSetName: !Ref SESReceiptRuleSet
+        Rule:
+          Name: 'adm-1'
+          Enabled: True
+          Recipients:
+            - adm-1.org
+          Actions:
+            - S3Action:
+                BucketName: ${param:bucket}
     S3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
-        Bucket: 16gemail
+        Bucket: ${param:bucket}
         PolicyDocument:
           Statement:
             - Sid: "AllowSESPutObject"
@@ -86,11 +111,11 @@ resources:
                 Service: "ses.amazonaws.com"
               Action:
                 - "s3:PutObject"
-              Resource: arn:aws:s3:::16gemail/*
+              Resource: arn:aws:s3:::${param:bucket}/*
     IAMRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: 16G-Serverless-Deployment
+        RoleName: 16G-Serverless-Deployment-${opt:region, 'us-west-2'}
         AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -102,16 +127,18 @@ resources:
               Action:
                 - 'sts:AssumeRole'
         Policies:
-          - PolicyName: ServerlessDeploymentPolicies
+          - PolicyName: ServerlessDeploymentPolicies-${opt:region, 'us-west-2'}
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
                 - Effect: Allow   # Allow S3 actions to buckets with service prefix.
                   Resource:
-                    - 'arn:aws:s3:::16gemail*'
+                    - arn:aws:s3:::${param:bucket}*'
+                    - arn:aws:lambda:::*
                   Action:
                     - 's3:*'
-          - PolicyName: LambdaRole
+                    - 'lambda:*'
+          - PolicyName: LambdaRole-${opt:region, 'us-west-2'}
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
