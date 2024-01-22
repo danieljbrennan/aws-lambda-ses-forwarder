@@ -5,4 +5,4 @@ Resources:
     Properties:
       HostedZoneConfig:
         Comment: "Domain registered with AWS"
-      Name: "adm-1.org"
+      Name: 16geneticpersonalitytypes.com
