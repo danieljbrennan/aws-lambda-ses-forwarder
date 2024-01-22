@@ -35,18 +35,18 @@ plugins:
 
 custom:
   hostedZone:
-    name: 16geneticpersonalitytypes.COM.
+    name: 16geneticpersonalitytypes.com.
   domain:
-    name: 16geneticpersonalitytypes.COM
+    name: 16geneticpersonalitytypes.com
   customDomain:
-    domainName: 16geneticpersonalitytypes.COM
-    certificateName: 16geneticpersonalitytypes.COM
+    domainName: 16geneticpersonalitytypes.com
+    certificateName: 16geneticpersonalitytypes.com
     basePath: ''
     stage: ${self:provider.stage}
     createRoute53Record: true
   customCertificate:
     hostedZoneNames:
-      - 16geneticpersonalitytypes.COM.
+      - 16geneticpersonalitytypes.com.
     certificateName: ${self:custom.domain.name}
     region: ${param:region}
     enabled: true
@@ -57,8 +57,8 @@ resources:
     Route53RecordSet16GPT:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneName: 16geneticpersonalitytypes.COM
-        Name: 16geneticpersonalitytypes.COM
+        HostedZoneName: 16geneticpersonalitytypes.com
+        Name: 16geneticpersonalitytypes.com
         Comment: Incoming email record for sub-domain
         Type: MX
         TTL: 900
