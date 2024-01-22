@@ -22,6 +22,7 @@ provider:
 functions:
   Forwarder:
     handler: index.handler
+    url: true
     events:
       - s3:
           bucket: ${param:bucket}
@@ -51,6 +52,8 @@ custom:
     region: ${param:region}
     enabled: true
     rewriteRecords: false
+    subjectAlternativeNames:
+      - dev.${self:custom.domain.name}
 
 resources:
   Resources:
@@ -63,8 +66,8 @@ resources:
         Type: MX
         TTL: 900
         ResourceRecords:
-          - "10 inbound-smtp.us-west-2.amazonaws.com"
-    Route53RecordSet16geniuses:
+          - 10 inbound-smtp.${param.region}.amazonaws.com
+    Route53RecordSetAdm:
       Type: AWS::Route53::RecordSet
       Properties:
         HostedZoneName: 16geniuses.com
@@ -73,11 +76,13 @@ resources:
         Type: MX
         TTL: 900
         ResourceRecords:
-          - "10 inbound-smtp.us-west-2.amazonaws.com"
+          - 10 inbound-smtp.${param.region}.amazonaws.com
+
     SESReceiptRuleSet:
       Type: AWS::SES::ReceiptRuleSet
       Properties:
         RuleSetName: 'INBOUND'
+
     EmailRule1:
       Type: AWS::SES::ReceiptRule
       Properties:
@@ -95,7 +100,7 @@ resources:
       Properties:
         RuleSetName: !Ref SESReceiptRuleSet
         Rule:
-          Name: '16geniuses'
+          Name: 16geniuses
           Enabled: True
           Recipients:
             - 16geniuses.com
@@ -120,6 +125,7 @@ resources:
               Action:
                 - "s3:PutObject"
               Resource: arn:aws:s3:::${param:bucket}/*
+
     IAMRole:
       Type: AWS::IAM::Role
       Properties:
@@ -155,6 +161,7 @@ resources:
                     - !Sub 'arn:aws:iam::${AWS::AccountId}:role/16G-Serverless-Deployment-Role'
                   Action:
                     - 'iam:PassRole'
+                    -
     SESEmailIdentity16GPT:
       Type: AWS::SES::EmailIdentity
       Properties:
@@ -163,6 +170,7 @@ resources:
           MailFromDomain: mail.16geneticpersonalitytypes.com
         DkimAttributes:
           SigningEnabled: true
+
     SESEmailIdentity16Geniuses:
       Type: AWS::SES::EmailIdentity
       Properties:
@@ -193,7 +201,7 @@ resources:
             TTL: '3600'
             ResourceRecords:
               - !GetAtt SESEmailIdentity16GPT.DkimDNSTokenValue3
-              -
+
     Route53RecordSetGroup16Geniuses:
       Type: AWS::Route53::RecordSetGroup
       Properties:
