@@ -4,11 +4,12 @@ frameworkVersion: '3'
 params:
   default:
     bucket: 16-g-mail-test
+    region: us-east-1
 
 provider:
   name: aws
   runtime: nodejs18.x
-  region: ${opt:region, 'us-west-2'}
+  region: ${param:region}
   stage: prod
   iam:
     role:
@@ -16,7 +17,7 @@ provider:
         - IAMRole
         - Arn
   deploymentBucket:
-    name: sls-deployment-${aws:accountId}-${opt:region, 'us-west-2'}
+    name: sls-deployment-${aws:accountId}-${param:region}
 
 functions:
   Forwarder:
@@ -29,64 +30,66 @@ functions:
 
 plugins:
   - serverless-deployment-bucket
+  - serverless-domain-manager
+  - serverless-certificate-creator
+
+custom:
+  hostedZone:
+    name: adm-1.org.
+  domain:
+    name: adm-1.org
+  customDomain:
+    domainName: adm-1.org
+    certificateName: adm-1.org
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+  customCertificate:
+    hostedZoneNames:
+      - adm-1.org.
+    certificateName: ${self:custom.domain.name}
+    region: ${param:region}
+    enabled: true
+    rewriteRecords: false
 
 resources:
   Resources:
-#    Route53HostedZone16Genetic:
-#      Type: AWS::Route53::HostedZone
-#      Properties:
-#        HostedZoneConfig:
-#          Comment: "Domain registered with AWS"
-#        Name: "16geneticpersonalitytypes.com"
-    Route53HostedZoneAdm:
-      Type: AWS::Route53::HostedZone
-      Properties:
-        HostedZoneConfig:
-          Comment: "Domain registered with AWS"
-        Name: "adm-1.org"
-#    Route53RecordSet:
-#      Type: AWS::Route53::RecordSet
-#      Properties:
-#        HostedZoneId:
-#          Ref: Route53HostedZone16Genetic
-#        Name: 16geneticpersonalitytypes.com
-#        Comment: Incoming email record for sub-domain
-#        Type: MX
-#        TTL: 900
-#        ResourceRecords:
-#          - "10 inbound-smtp.us-west-2.amazonaws.com"
-    Route53RecordSetAdm:
+    Route53RecordSet:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId:
-          Ref: Route53HostedZoneAdm
+        HostedZoneName: adm-1.org
         Name: adm-1.org
         Comment: Incoming email record for sub-domain
         Type: MX
         TTL: 900
         ResourceRecords:
-          - "10 inbound-smtp.us-west-2.amazonaws.com"
+          - "10 inbound-smtp.us-east-1.amazonaws.com"
+    Route53RecordSetAdm:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneName: adm-1.org
+        Name: adm-1.org
+        Comment: Incoming email record for sub-domain
+        Type: MX
+        TTL: 900
+        ResourceRecords:
+          - "10 inbound-smtp.us-east-1.amazonaws.com"
     SESReceiptRuleSet:
       Type: AWS::SES::ReceiptRuleSet
       Properties:
         RuleSetName: 'INBOUND'
-#    EmailRule1:
-#      Type: AWS::SES::ReceiptRule
-#      Properties:
-#        RuleSetName: !Ref SESReceiptRuleSet
-#        Rule:
-#          Name: '16GPT'
-#          Enabled: True
-#          Recipients:
-#            - 16geneticpersonalitytypes.com
-#          Actions:
-#            - S3Action:
-#                BucketName: ${param:bucket}
-#            - LambdaAction:
-#                FunctionArn:
-#                  Fn::GetAtt:
-#                    - ForwarderLambdaFunction
-#                    - Arn
+    EmailRule1:
+      Type: AWS::SES::ReceiptRule
+      Properties:
+        RuleSetName: !Ref SESReceiptRuleSet
+        Rule:
+          Name: '16geneticpersonalitytypes'
+          Enabled: False
+          Recipients:
+            - adm-1.org
+          Actions:
+            - S3Action:
+                BucketName: ${param:bucket}
     EmailRule2:
       Type: AWS::SES::ReceiptRule
       Properties:
@@ -99,6 +102,11 @@ resources:
           Actions:
             - S3Action:
                 BucketName: ${param:bucket}
+#            - LambdaAction:
+#                FunctionArn:
+#                  Fn::GetAtt:
+#                    - ForwarderLambdaFunction
+#                    - Arn
     S3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -115,7 +123,7 @@ resources:
     IAMRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: 16G-Serverless-Deployment-${opt:region, 'us-west-2'}
+        RoleName: 16G-Serverless-Deployment-${param:region}
         AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -127,7 +135,7 @@ resources:
               Action:
                 - 'sts:AssumeRole'
         Policies:
-          - PolicyName: ServerlessDeploymentPolicies-${opt:region, 'us-west-2'}
+          - PolicyName: ServerlessDeploymentPolicies-${param:region}
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
@@ -138,7 +146,7 @@ resources:
                   Action:
                     - 's3:*'
                     - 'lambda:*'
-          - PolicyName: LambdaRole-${opt:region, 'us-west-2'}
+          - PolicyName: LambdaRole-${param:region}
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
@@ -147,3 +155,33 @@ resources:
                     - !Sub 'arn:aws:iam::${AWS::AccountId}:role/16G-Serverless-Deployment-Role'
                   Action:
                     - 'iam:PassRole'
+    SESEmailIdentity:
+      Type: AWS::SES::EmailIdentity
+      Properties:
+        EmailIdentity: adm-1.org
+        MailFromAttributes:
+          MailFromDomain: mail.adm-1.org
+        DkimAttributes:
+          SigningEnabled: true
+
+    Route53RecordSetGroup:
+      Type: AWS::Route53::RecordSetGroup
+      Properties:
+        HostedZoneId:
+          Ref: Route53HostedZoneAdm
+        RecordSets:
+          - Name: !GetAtt SESEmailIdentity.DkimDNSTokenName1
+            Type: CNAME
+            TTL: '3600'
+            ResourceRecords:
+              - !GetAtt SESEmailIdentity.DkimDNSTokenValue1
+          - Name: !GetAtt SESEmailIdentity.DkimDNSTokenName2
+            Type: CNAME
+            TTL: '3600'
+            ResourceRecords:
+              - !GetAtt SESEmailIdentity.DkimDNSTokenValue2
+          - Name: !GetAtt SESEmailIdentity.DkimDNSTokenName3
+            Type: CNAME
+            TTL: '3600'
+            ResourceRecords:
+              - !GetAtt SESEmailIdentity.DkimDNSTokenValue3

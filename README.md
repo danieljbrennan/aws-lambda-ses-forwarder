@@ -1,5 +1,6 @@
 # AWS Lambda SES Email Forwarder
 
+Resources are in us-east-1 so they don't conflict with old 16Genius rule
 
 SEND mail as:
 
