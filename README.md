@@ -1,6 +1,7 @@
 # AWS Lambda SES Email Forwarder
 
-Resources are in us-east-1 so they don't conflict with old 16Genius rule
+Testing Resources are in us-east-1 so they don't conflict with old 16Genius rule
+HostedZones created with hostedZones.yml and `aws cloudformation deploy --template-file hostedZones.yml --stack-name HostedZones --region REGION`
 
 SEND mail as:
 
