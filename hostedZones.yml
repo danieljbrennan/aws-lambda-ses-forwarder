@@ -26,21 +26,63 @@ Resources:
             - for testing
       Name: adm-1.org
 
+  Route53RecordSet1:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref Route53HostedZone1
+      Name: 16geneticpersonalitytypes.com
+      Comment: NS Record for 16geneticpersonalitytypes
+      Type: NS
+      TTL: 172800
+      ResourceRecords:
+        - ns1079.ui-dns.de.
+        - ns1079.ui-dns.biz.
+        - ns1079.ui-dns.org.
+        - ns1079.ui-dns.com.
+
+  Route53RecordSet2:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref Route53HostedZone2
+      Name: 16gpt.com
+      Comment: NS Record for 16gpt
+      Type: NS
+      TTL: 172800
+      ResourceRecords:
+        - ns1079.ui-dns.de.
+        - ns1079.ui-dns.biz.
+        - ns1079.ui-dns.org.
+        - ns1079.ui-dns.com.
+
+  Route53RecordSet3:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref Route53HostedZone3
+      Name: adm-1.org
+      Comment: NS Record for adm-1
+      Type: NS
+      TTL: 172800
+      ResourceRecords:
+        - ns1079.ui-dns.de.
+        - ns1079.ui-dns.biz.
+        - ns1079.ui-dns.org.
+        - ns1079.ui-dns.com.
+
 Outputs:
   HostedZone1:
-    Description: Zone Id of 16geneticPersonalityTypes
+    Description: Zone Id of 16geneticpersonalitytypes.com
     Value: !Ref Route53HostedZone1
     Export:
       Name: !Sub ${AWS::StackName}:16geneticpersonalitytypes
 
   HostedZone2:
-    Description: Zone Id of 16GPT
+    Description: Zone Id of 16gpt.com
     Value: !Ref Route53HostedZone2
     Export:
       Name: !Sub ${AWS::StackName}:16gpt
 
   HostedZone3:
-    Description: Zone Id of 16GPT
+    Description: Zone Id of adm-1.org
     Value: !Ref Route53HostedZone3
     Export:
       Name: !Sub ${AWS::StackName}:adm-1
