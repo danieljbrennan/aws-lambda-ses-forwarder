@@ -4,7 +4,7 @@ frameworkVersion: '3'
 params:
   default:
     bucket: 16-g-mail-test
-    region: us-west-2
+    region: us-east-1
 
 provider:
   name: aws
@@ -28,10 +28,18 @@ functions:
           bucket: ${param:bucket}
           event: s3:ObjectCreated:*
           existing: true   # We are using an existing bucket
+#      - cloudFront:
+#          eventType: origin-response
+#          pathPattern: /
+#          origin:
+#            DomainName: 16geneticpersonalitytypes.com
+#            OriginPath: /
+#            CustomOriginConfig:
+#              OriginProtocolPolicy: match-viewer
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-domain-manager
+#  - serverless-domain-manager
   - serverless-certificate-creator
 
 custom:
@@ -39,44 +47,60 @@ custom:
     name: 16geneticpersonalitytypes.com.
   domain:
     name: 16geneticpersonalitytypes.com
-  customDomain:
-    domainName: 16geneticpersonalitytypes.com
-    certificateName: 16geneticpersonalitytypes.com
-    basePath: ''
-    stage: ${self:provider.stage}
-    createRoute53Record: true
+#  customDomain:
+#    domainName: 16geneticpersonalitytypes.com
+#    certificateName: 16geneticpersonalitytypes.com
+#    basePath: ''
+#    stage: ${self:provider.stage}
+#    createRoute53Record: true
   customCertificate:
     hostedZoneNames:
       - 16geneticpersonalitytypes.com.
+      - 16gpt.com.
     certificateName: ${self:custom.domain.name}
     region: ${param:region}
     enabled: true
     rewriteRecords: false
     subjectAlternativeNames:
       - dev.${self:custom.domain.name}
+      - 16gpt.com
+      - dev.16gpt.com
 
 resources:
   Resources:
-    Route53RecordSet16GPT:
+
+    Route53RecordSet1:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneName: 16geneticpersonalitytypes.com
+        HostedZoneId: !ImportValue HostedZones:16geneticpersonalitytypes
         Name: 16geneticpersonalitytypes.com
-        Comment: Incoming email record for sub-domain
+        Comment: Incoming email record for 16geneticpersonalitytypes
         Type: MX
-        TTL: 900
+        TTL: 60
         ResourceRecords:
-          - 10 inbound-smtp.${param.region}.amazonaws.com
-    Route53RecordSetAdm:
-      Type: AWS::Route53::RecordSet
-      Properties:
-        HostedZoneName: 16geniuses.com
-        Name: 16geniuses.com
-        Comment: Incoming email record for sub-domain
-        Type: MX
-        TTL: 900
-        ResourceRecords:
-          - 10 inbound-smtp.${param.region}.amazonaws.com
+          - !Sub 10 inbound-smtp.${param:region}.amazonaws.com
+
+#    Route53RecordSet2:
+#      Type: AWS::Route53::RecordSet
+#      Properties:
+#        HostedZoneName: 16geniuses.com.
+#        Name: 16geniuses.com
+#        Comment: Incoming email record for sub-domain
+#        Type: MX
+#        TTL: 60
+#        ResourceRecords:
+#          - 10 inbound-smtp.${param.region}.amazonaws.com
+
+#    Route53RecordSet3:
+#      Type: AWS::Route53::RecordSet
+#      Properties:
+#        HostedZoneName: adm-1.org
+#        Name: adm-1.org
+#        Comment: Incoming email record for sub-domain
+#        Type: MX
+#        TTL: 900
+#        ResourceRecords:
+#          - 10 inbound-smtp.${param.region}.amazonaws.com
 
     SESReceiptRuleSet:
       Type: AWS::SES::ReceiptRuleSet
@@ -95,6 +119,7 @@ resources:
           Actions:
             - S3Action:
                 BucketName: ${param:bucket}
+
     EmailRule2:
       Type: AWS::SES::ReceiptRule
       Properties:
@@ -161,8 +186,8 @@ resources:
                     - !Sub 'arn:aws:iam::${AWS::AccountId}:role/16G-Serverless-Deployment-Role'
                   Action:
                     - 'iam:PassRole'
-                    -
-    SESEmailIdentity16GPT:
+
+    SESEmailIdentity1:
       Type: AWS::SES::EmailIdentity
       Properties:
         EmailIdentity: 16geneticpersonalitytypes.com
@@ -171,55 +196,54 @@ resources:
         DkimAttributes:
           SigningEnabled: true
 
-    SESEmailIdentity16Geniuses:
-      Type: AWS::SES::EmailIdentity
-      Properties:
-        EmailIdentity: 16geniuses.com
-        MailFromAttributes:
-          MailFromDomain: mail.16geniuses.com
-        DkimAttributes:
-          SigningEnabled: true
+#    SESEmailIdentity2:
+#      Type: AWS::SES::EmailIdentity
+#      Properties:
+#        EmailIdentity: 16geniuses.com
+#        MailFromAttributes:
+#          MailFromDomain: mail.16geniuses.com
+#        DkimAttributes:
+#          SigningEnabled: true
 
-    Route53RecordSetGroup16GPT:
+    Route53RecordSetGroup1:
       Type: AWS::Route53::RecordSetGroup
       Properties:
-        HostedZoneId:
-          Ref: SESEmailIdentity16GPT
+        HostedZoneId: !ImportValue HostedZones:16geneticpersonalitytypes
         RecordSets:
-          - Name: !GetAtt SESEmailIdentity16GPT.DkimDNSTokenName1
+          - Name: !GetAtt SESEmailIdentity1.DkimDNSTokenName1
             Type: CNAME
             TTL: '3600'
             ResourceRecords:
-              - !GetAtt SESEmailIdentity16GPT.DkimDNSTokenValue1
-          - Name: !GetAtt SESEmailIdentity16GPT.DkimDNSTokenName2
+              - !GetAtt SESEmailIdentity1.DkimDNSTokenValue1
+          - Name: !GetAtt SESEmailIdentity1.DkimDNSTokenName2
             Type: CNAME
             TTL: '3600'
             ResourceRecords:
-              - !GetAtt SESEmailIdentity16GPT.DkimDNSTokenValue2
-          - Name: !GetAtt SESEmailIdentity16GPT.DkimDNSTokenName3
+              - !GetAtt SESEmailIdentity1.DkimDNSTokenValue2
+          - Name: !GetAtt SESEmailIdentity1.DkimDNSTokenName3
             Type: CNAME
             TTL: '3600'
             ResourceRecords:
-              - !GetAtt SESEmailIdentity16GPT.DkimDNSTokenValue3
+              - !GetAtt SESEmailIdentity1.DkimDNSTokenValue3
 
-    Route53RecordSetGroup16Geniuses:
-      Type: AWS::Route53::RecordSetGroup
-      Properties:
-        HostedZoneId:
-          Ref: SESEmailIdentity16Geniuses
-        RecordSets:
-          - Name: !GetAtt SESEmailIdentity16Geniuses.DkimDNSTokenName1
-            Type: CNAME
-            TTL: '3600'
-            ResourceRecords:
-              - !GetAtt SESEmailIdSESEmailIdentity16Geniusesentity.DkimDNSTokenValue1
-          - Name: !GetAtt SESEmailIdentity16Geniuses.DkimDNSTokenName2
-            Type: CNAME
-            TTL: '3600'
-            ResourceRecords:
-              - !GetAtt SESEmailIdentity16Geniuses.DkimDNSTokenValue2
-          - Name: !GetAtt SESEmaiSESEmailIdentity16GeniuseslIdentity.DkimDNSTokenName3
-            Type: CNAME
-            TTL: '3600'
-            ResourceRecords:
-              - !GetAtt SESEmailIdentity16Geniuses.DkimDNSTokenValue3
+#    Route53RecordSetGroup2:
+#      Type: AWS::Route53::RecordSetGroup
+#      Properties:
+#        HostedZoneId:
+#          Ref: SESEmailIdentity2
+#        RecordSets:
+#          - Name: !GetAtt SESEmailIdentity2.DkimDNSTokenName1
+#            Type: CNAME
+#            TTL: '3600'
+#            ResourceRecords:
+#              - !GetAtt SESEmailIdentity2.DkimDNSTokenValue1
+#          - Name: !GetAtt SESEmailIdentity2.DkimDNSTokenName2
+#            Type: CNAME
+#            TTL: '3600'
+#            ResourceRecords:
+#              - !GetAtt SESEmailIdentity2.DkimDNSTokenValue2
+#          - Name: !GetAtt SESEmailIdentity2.DkimDNSTokenName3
+#            Type: CNAME
+#            TTL: '3600'
+#            ResourceRecords:
+#              - !GetAtt SESEmailIdentity2.DkimDNSTokenValue3
