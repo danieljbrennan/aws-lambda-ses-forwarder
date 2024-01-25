@@ -1,8 +1,46 @@
+# aws cloudformation deploy --template-file hostedZones.yml --stack-name HostedZones --region us-east-1
+
 Resources:
 
-  Route53HostedZoneAdm:
+  Route53HostedZone1:
     Type: AWS::Route53::HostedZone
     Properties:
       HostedZoneConfig:
-        Comment: "Domain registered with AWS"
+        Comment: !Ref AWS::Region
       Name: 16geneticpersonalitytypes.com
+
+  Route53HostedZone2:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      HostedZoneConfig:
+        Comment: !Ref AWS::Region
+      Name: 16gpt.com
+
+  Route53HostedZone3:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      HostedZoneConfig:
+        Comment: !Join
+          - ', '
+          - - !Ref AWS::Region
+            - for testing
+      Name: adm-1.org
+
+Outputs:
+  HostedZone1:
+    Description: Zone Id of 16geneticPersonalityTypes
+    Value: !Ref Route53HostedZone1
+    Export:
+      Name: !Sub ${AWS::StackName}:16geneticpersonalitytypes
+
+  HostedZone2:
+    Description: Zone Id of 16GPT
+    Value: !Ref Route53HostedZone2
+    Export:
+      Name: !Sub ${AWS::StackName}:16gpt
+
+  HostedZone3:
+    Description: Zone Id of 16GPT
+    Value: !Ref Route53HostedZone3
+    Export:
+      Name: !Sub ${AWS::StackName}:adm-1
