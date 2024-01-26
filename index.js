@@ -40,7 +40,7 @@ let defaultConfig = {
     emailKeyPrefix: "mail/",
     allowPlusSign: true,
     forwardMapping: {
-        "daniel@adm-1.org": [
+        "daniel@16geneticpersonalitytypes.com": [
             "danieljb@gmail.com"
         ],
         // "bobcooley@16geneticpersonalitytypes.com": [

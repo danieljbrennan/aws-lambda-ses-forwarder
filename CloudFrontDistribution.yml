@@ -1,0 +1,53 @@
+Type: AWS::CloudFront::Distribution
+Properties:
+  DistributionConfig:
+    Aliases:
+      - dev.16geniuses.com
+    Origins:
+      - Id: ApiGateway
+        DomainName: !ImportValue DistributionDomainNameHttp
+#          Fn::Join:
+#            - ""
+#            - - !Ref HttpApi
+#              - ".execute-api."
+#              - Ref: AWS::Region
+#              - ".amazonaws.com"
+        CustomOriginConfig:
+          HTTPPort: '80'
+          HTTPSPort: '443'
+          OriginProtocolPolicy: https-only
+          OriginSSLProtocols: [ "TLSv1", "TLSv1.1", "TLSv1.2" ]
+        OriginPath: "/dev"
+    Enabled: true
+    HttpVersion: http2
+    Comment: CDN for 16geneticpersonalitytypes API gateway
+    PriceClass: PriceClass_All
+    DefaultCacheBehavior:
+      AllowedMethods:
+        - DELETE
+        - GET
+        - HEAD
+        - OPTIONS
+        - PATCH
+        - POST
+        - PUT
+      CachedMethods:
+        - HEAD
+        - GET
+      ForwardedValues:
+        QueryString: true
+        Headers: [ ]
+        Cookies:
+          Forward: all
+      MinTTL: '0'
+      DefaultTTL: '0'
+      TargetOriginId: ApiGateway
+      ViewerProtocolPolicy: redirect-to-https
+    CustomErrorResponses: [ ]
+    ViewerCertificate:
+      AcmCertificateArn: !ImportValue HostedZones:16geniuses:certificate
+      SslSupportMethod: sni-only
+    Logging:
+      IncludeCookies: 'false'
+      Bucket: ''
+      Prefix: ''

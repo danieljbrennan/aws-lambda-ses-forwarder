@@ -1,4 +1,4 @@
-service: ses-email-forwarder
+service: Resources
 frameworkVersion: '3'
 
 params:
@@ -28,19 +28,10 @@ functions:
           bucket: ${param:bucket}
           event: s3:ObjectCreated:*
           existing: true   # We are using an existing bucket
-#      - cloudFront:
-#          eventType: origin-response
-#          pathPattern: /
-#          origin:
-#            DomainName: 16geneticpersonalitytypes.com
-#            OriginPath: /
-#            CustomOriginConfig:
-#              OriginProtocolPolicy: match-viewer
 
 plugins:
   - serverless-deployment-bucket
 #  - serverless-domain-manager
-  - serverless-certificate-creator
 
 custom:
   hostedZone:
@@ -53,21 +44,11 @@ custom:
 #    basePath: ''
 #    stage: ${self:provider.stage}
 #    createRoute53Record: true
-  customCertificate:
-    hostedZoneNames:
-      - 16geneticpersonalitytypes.com.
-      - 16gpt.com.
-    certificateName: ${self:custom.domain.name}
-    region: ${param:region}
-    enabled: true
-    rewriteRecords: false
-    subjectAlternativeNames:
-      - dev.${self:custom.domain.name}
-      - 16gpt.com
-      - dev.16gpt.com
 
 resources:
   Resources:
+
+    CloudFrontDistribution: ${file(./CloudFrontDistribution.yml)}
 
     Route53RecordSet1:
       Type: AWS::Route53::RecordSet
@@ -91,16 +72,16 @@ resources:
 #        ResourceRecords:
 #          - 10 inbound-smtp.${param.region}.amazonaws.com
 
-#    Route53RecordSet3:
-#      Type: AWS::Route53::RecordSet
-#      Properties:
-#        HostedZoneName: adm-1.org
-#        Name: adm-1.org
-#        Comment: Incoming email record for sub-domain
-#        Type: MX
-#        TTL: 900
-#        ResourceRecords:
-#          - 10 inbound-smtp.${param.region}.amazonaws.com
+    Route53RecordSet3:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneId: !ImportValue HostedZones:adm-1
+        Name: adm-1.org
+        Comment: Incoming email record for sub-domain
+        Type: MX
+        TTL: 900
+        ResourceRecords:
+          - !Sub 10 inbound-smtp.${param:region}.amazonaws.com
 
     SESReceiptRuleSet:
       Type: AWS::SES::ReceiptRuleSet
@@ -137,6 +118,20 @@ resources:
 #                  Fn::GetAtt:
 #                    - ForwarderLambdaFunction
 #                    - Arn
+
+    EmailRule3:
+      Type: AWS::SES::ReceiptRule
+      Properties:
+        RuleSetName: !Ref SESReceiptRuleSet
+        Rule:
+          Name: adm-1.org
+          Enabled: True
+          Recipients:
+            - adm-1.org
+          Actions:
+            - S3Action:
+                BucketName: ${param:bucket}
+
     S3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -163,6 +158,7 @@ resources:
                 Service:
                   - 'cloudformation.amazonaws.com'
                   - 'lambda.amazonaws.com'
+                  - edgelambda.amazonaws.com
               Action:
                 - 'sts:AssumeRole'
         Policies:
@@ -204,6 +200,15 @@ resources:
 #          MailFromDomain: mail.16geniuses.com
 #        DkimAttributes:
 #          SigningEnabled: true
+
+    SESEmailIdentity3:
+      Type: AWS::SES::EmailIdentity
+      Properties:
+        EmailIdentity: adm-1.org
+        MailFromAttributes:
+          MailFromDomain: mail.adm-1.org
+        DkimAttributes:
+          SigningEnabled: true
 
     Route53RecordSetGroup1:
       Type: AWS::Route53::RecordSetGroup
@@ -247,3 +252,25 @@ resources:
 #            TTL: '3600'
 #            ResourceRecords:
 #              - !GetAtt SESEmailIdentity2.DkimDNSTokenValue3
+
+    Route53RecordSetGroup3:
+      Type: AWS::Route53::RecordSetGroup
+      Properties:
+        HostedZoneId:
+          Ref: SESEmailIdentity3
+        RecordSets:
+          - Name: !GetAtt SESEmailIdentity3.DkimDNSTokenName1
+            Type: CNAME
+            TTL: '3600'
+            ResourceRecords:
+              - !GetAtt SESEmailIdentity3.DkimDNSTokenValue1
+          - Name: !GetAtt SESEmailIdentity3.DkimDNSTokenName2
+            Type: CNAME
+            TTL: '3600'
+            ResourceRecords:
+              - !GetAtt SESEmailIdentity3.DkimDNSTokenValue2
+          - Name: !GetAtt SESEmailIdentity3.DkimDNSTokenName3
+            Type: CNAME
+            TTL: '3600'
+            ResourceRecords:
+              - !GetAtt SESEmailIdentity3.DkimDNSTokenValue3
