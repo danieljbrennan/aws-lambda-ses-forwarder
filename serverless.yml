@@ -5,6 +5,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-west-2'}
+  stage: prod
   iam:
     role:
       statements:
