@@ -20,14 +20,6 @@ provider:
     name: sls-deployment-${aws:accountId}-${param:region}
 
 functions:
-  Forwarder:
-    handler: index.handler
-    url: true
-    events:
-      - s3:
-          bucket: ${param:bucket}
-          event: s3:ObjectCreated:*
-          existing: true   # We are using an existing bucket
 
 plugins:
   - serverless-deployment-bucket
