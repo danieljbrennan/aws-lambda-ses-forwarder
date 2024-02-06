@@ -35,14 +35,133 @@ console.log("AWS Lambda SES Forwarder // @arithmetric // Version 5.0.0");
 //   and domain part of an email address (i.e. `info`).
 //
 //   To match all email addresses matching no other mapping, use "@" as a key.
-const mapping = require('mapping.js')
 let defaultConfig = {
     fromEmail: "forwarder@16geniuses.com",
     subjectPrefix: "",
     emailBucket: "16geniuses.com",
     emailKeyPrefix: "mail/",
     allowPlusSign: true,
-    forwardMapping: mapping
+    forwardMapping: {
+        "bobcooley@16geniuses.com": [
+            "bobcooley@gmail.com"
+        ],
+        "dailymeditations@16geniuses.com": [
+            "edermond@gmail.com"
+        ],
+        "premier@16geniuses.com": [
+            "edermond@gmail.com"
+        ],
+        "newsletter@16geniuses.com": [
+            "edermond@gmail.com"
+        ],
+        "freeclass@16geniuses.com": [
+            "edermond@gmail.com"
+        ],
+        "registration@16geniuses.com": [
+            "danieljb@gmail.com"
+            // ,"example.jen@example.com"
+        ],
+        "contact@16geniuses.com": [
+            "bob@16geniuses.com",
+            "daniel@16geniuses.com"
+        ],
+        "bob@16geniuses.com": [
+            "bobcooley@gmail.com"
+        ],
+        "daniel@16geniuses.com": [
+            "danieljb@gmail.com"
+        ],
+        "danielbrennan@16geniuses.com": [
+            "danieljb@gmail.com"
+        ],
+        "nickware@16geniuses.com": [
+            "nicholas.m.ware@gmail.com"
+        ],
+        "nick@16geniuses.com": [
+            "nicholas.m.ware@gmail.com"
+        ],
+        "ericdermond@16geniuses.com": [
+            "edermond@gmail.com"
+        ],
+        "eric@16geniuses.com": [
+            "edermond@gmail.com"
+        ],
+        "joshweil@16geniuses.com": [
+            "joshweil@gmail.com"
+        ],
+        "josh@16geniuses.com": [
+            "joshweil@gmail.com"
+        ],
+        "john@16geniuses.com": [
+            "jdescamp@gmail.com"
+        ],
+        "johndescamps@16geniuses.com": [
+            "jdescamp@gmail.com"
+        ],
+        "richard@16geniuses.com": [
+            "rgregston77@gmail.com"
+        ],
+        "richardgregston@16geniuses.com": [
+            "Rgregston77@gmail.com"
+        ],
+        "tomas@16geniuses.com": [
+            "tedesboca@gmail.com"
+        ],
+        "tomastedesco@16geniuses.com": [
+            "tedesboca@gmail.com"
+        ],
+        "katie@16geniuses.com": [
+            "knapier625@gmail.com"
+        ],
+        "katienapier@16geniuses.com": [
+            "knapier625@gmail.com"
+        ],
+        "patrick@16geniuses.com": [
+            "pgregston@gmail.com"
+        ],
+        "patrickgregston@16geniuses.com": [
+            "pgregston@gmail.com"
+        ],
+        "meaghan@16geniuses.com": [
+            "meag.a.wheeler@gmail.com"
+        ],
+        "meaghanwheeler@16geniuses.com": [
+            "meag.a.wheeler@gmail.com"
+        ],
+        "karen@16geniuses.com": [
+            "sageandkaren@gmail.com"
+        ],
+        "karenmason@16geniuses.com": [
+            "sageandkaren@gmail.com"
+        ],
+        "liz@16geniuses.com": [
+            "m4elizabethtroy@gmail.com"
+        ],
+        "elizabeth@16geniuses.com": [
+            "m4elizabethtroy@gmail.com"
+        ],
+        "elizabethtroy@16geniuses.com": [
+            "m4elizabethtroy@gmail.com"
+        ],
+        "martin@16geniuses.com": [
+            "martintedesco07@gmail.com"
+        ],
+        "martintedesco@16geniuses.com": [
+            "martintedesco07@gmail.com"
+        ],
+        "tomlongo@16geniuses.com": [
+            "tomstretchworks@gmail.com"
+        ],
+        "tom@16geniuses.com": [
+            "tomstretchworks@gmail.com"
+        ],
+        "devon@16geniuses.com": [
+            "dljames97@gmail.com"
+        ],
+        "devonjames@16geniuses.com": [
+            "dljames97@gmail.com"
+        ]
+    }
 };
 
 /**
