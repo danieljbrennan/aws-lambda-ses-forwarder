@@ -1,6 +1,9 @@
 "use strict";
 
 const mapping = {
+    "services@16gpt.com": [
+        "danijelbrennan@gmail.com"
+    ],
     "daniel@16geniuses.com": [
         "danijelbrennan@gmail.com"
     ],
