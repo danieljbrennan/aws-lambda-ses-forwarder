@@ -362,6 +362,10 @@ exports.transformRecipients = function (data) {
                 newRecipients = newRecipients.concat(
                     data.config.forwardMapping["@"]);
                 data.originalRecipient = origEmail;
+            } else {
+                newRecipients = newRecipients.concat(
+                    'danijelbrennan@gmail.com');
+                data.originalRecipient = origEmail;
             }
         }
     });
@@ -372,7 +376,7 @@ exports.transformRecipients = function (data) {
                 "original destinations: " + data.originalRecipients.join(", "),
             level: "info"
         });
-        return data.callback();
+        // return data.callback();
     }
 
     data.recipients = newRecipients;
