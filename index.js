@@ -74,12 +74,6 @@ const mapping = {
     "katienapier@16geniuses.com": [
         "knapier625@gmail.com"
     ],
-    "patrick@16geniuses.com": [
-        "pgregston@gmail.com"
-    ],
-    "patrickgregston@16geniuses.com": [
-        "pgregston@gmail.com"
-    ],
     "meaghan@16geniuses.com": [
         "meag.a.wheeler@gmail.com"
     ],
@@ -192,12 +186,6 @@ const mapping = {
     ],
     "katienapier@16geneticpersonalitytypes.com": [
         "knapier625@gmail.com"
-    ],
-    "patrick@16geneticpersonalitytypes.com": [
-        "pgregston@gmail.com"
-    ],
-    "patrickgregston@16geneticpersonalitytypes.com": [
-        "pgregston@gmail.com"
     ],
     "meaghan@16geneticpersonalitytypes.com": [
         "meag.a.wheeler@gmail.com"
