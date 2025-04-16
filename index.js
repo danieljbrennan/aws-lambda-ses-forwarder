@@ -1,9 +1,6 @@
 "use strict";
 
 const mapping = {
-    "services@16gpt.com": [
-        "danijelbrennan@gmail.com"
-    ],
     "daniel@16geniuses.com": [
         "danijelbrennan@gmail.com"
     ],
@@ -125,9 +122,6 @@ const mapping = {
     "daniel@16geneticpersonalitytypes.com": [
         "danijelbrennan@gmail.com"
     ],
-    "aws@16geneticpersonalitytypes.com": [
-        "danijelbrennan@gmail.com"
-    ],
     "danielbrennan@16geneticpersonalitytypes.com": [
         "danieljb@gmail.com"
     ],
@@ -243,6 +237,9 @@ const mapping = {
     ],
     "devonjames@16geneticpersonalitytypes.com": [
         "dljames97@gmail.com"
+    ],
+    "guest@16geneticpersonalitytypes.com": [
+        "danieljb@gmail.com"
     ]
 }
 
@@ -329,12 +326,14 @@ exports.parseEvent = function (data) {
 exports.transformRecipients = function (data) {
     let newRecipients = [];
     data.originalRecipients = data.recipients;
+    console.log(data.recipients)
     data.recipients.forEach(function (origEmail) {
         let origEmailKey = origEmail.toLowerCase();
         if (data.config.allowPlusSign) {
             origEmailKey = origEmailKey.replace(/\+.*?@/, '@');
         }
         if (data.config.forwardMapping.hasOwnProperty(origEmailKey)) {
+            console.log(origEmailKey)
             newRecipients = newRecipients.concat(
                 data.config.forwardMapping[origEmailKey]);
             data.originalRecipient = origEmail;
