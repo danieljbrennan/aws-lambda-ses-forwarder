@@ -1,5 +1,4 @@
 service: aws-lambda-ses-forwarder
-frameworkVersion: '3'
 
 provider:
   name: aws

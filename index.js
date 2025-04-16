@@ -145,8 +145,8 @@ const mapping = {
         // ,"example.jen@example.com"
     ],
     "contact@16geneticpersonalitytypes.com": [
-        "bob@16geneticpersonalitytypes.com",
-        "daniel@16geneticpersonalitytypes.com"
+        "bobcooley@gmail.com",
+        "danieljb@gmail.com"
     ],
     "bob@16geneticpersonalitytypes.com": [
         "bobcooley@gmail.com"
